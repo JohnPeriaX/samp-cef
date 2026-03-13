@@ -155,6 +155,8 @@ Chromium URL:     https://chromium.googlesource.com/chromium/src.git
 ## เอกสาร
 - [docs/main_en.md](docs/main_en.md)
 - [docs/build.md](docs/build.md)
+- [docs/main_th.md](docs/main_th.md)
+- [docs/build.th.md](docs/build.th.md)
 - GitHub wiki
 
 ## วิดีโอตัวอย่าง

@@ -8,7 +8,9 @@ Choose your language:
 Quick links:
 
 - [Build notes](docs/build.md)
+- [Build notes (TH)](docs/build.th.md)
 - [English docs](docs/main_en.md)
+- [เอกสารภาษาไทย](docs/main_th.md)
 - [GitHub Actions](https://github.com/ZOTTCE/samp-cef/actions)
 
 Verified Windows client build outputs:
