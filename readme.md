@@ -1,15 +1,16 @@
 # SAMP CEF
 
-Choose your language:
+เวอร์ชันนี้จัดทำสำหรับการใช้งานภาษาไทยเท่านั้น
 
-- [English](README.en.md)
 - [ไทย](README.th.md)
 
-Quick links:
+หมายเหตุ:
+- fork นี้ปรับไว้สำหรับงานภาษาไทยและการใช้งานในประเทศไทยเป็นหลัก
+- หากต้องการใช้งานสำหรับภาษาอื่นหรือประเทศอื่น ควรปรับ locale, encoding, และเอกสารให้เหมาะกับสภาพแวดล้อมของคุณเอง
 
-- [Build notes](docs/build.md)
+ลิงก์ที่เกี่ยวข้อง:
+
 - [Build notes (TH)](docs/build.th.md)
-- [English docs](docs/main_en.md)
 - [เอกสารภาษาไทย](docs/main_th.md)
 - [GitHub Actions](https://github.com/ZOTTCE/samp-cef/actions)
 

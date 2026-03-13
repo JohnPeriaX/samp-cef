@@ -12,6 +12,30 @@ use crate::app::Event;
 use crate::browser::client::{WebClient, WebClientRef};
 use std::sync::Arc;
 
+const DEFAULT_BROWSER_ENCODING: &str = "windows-874";
+
+fn browser_default_encoding() -> String {
+    let configured = std::env::var("SAMP_CEF_DEFAULT_ENCODING")
+        .ok()
+        .map(|value| value.trim().to_owned())
+        .filter(|value| !value.is_empty());
+
+    match configured {
+        Some(value) => {
+            if value.eq_ignore_ascii_case("tis-620") {
+                log::trace!(
+                    "mapping SAMP_CEF_DEFAULT_ENCODING=tis-620 to {}",
+                    DEFAULT_BROWSER_ENCODING
+                );
+                DEFAULT_BROWSER_ENCODING.to_owned()
+            } else {
+                value
+            }
+        }
+        None => DEFAULT_BROWSER_ENCODING.to_owned(),
+    }
+}
+
 #[derive(Clone)]
 struct DefaultApp {
     event_tx: Sender<Event>,
@@ -105,20 +129,27 @@ pub fn create_browser(client: Arc<WebClient>, url: &str) {
     window_info.parent_window = client_api::gta::hwnd() as *mut _;
     window_info.windowless_rendering_enabled = 1;
 
+    let browser_encoding = browser_default_encoding();
     let url = crate::browser::assets_scheme::resolve_browser_url(url);
     let url = CefString::new(&url);
+    let default_encoding = cef::types::string::into_cef_string(&browser_encoding);
 
     let mut settings = unsafe { std::mem::zeroed::<cef_sys::cef_browser_settings_t>() };
 
     settings.size = std::mem::size_of::<cef_sys::cef_browser_settings_t>();
     settings.windowless_frame_rate = 60;
+    settings.default_encoding = default_encoding;
     settings.javascript_access_clipboard = cef_sys::cef_state_t::STATE_ENABLED;
     settings.javascript_dom_paste = cef_sys::cef_state_t::STATE_ENABLED;
     settings.remote_fonts = cef_sys::cef_state_t::STATE_ENABLED;
     settings.webgl = cef_sys::cef_state_t::STATE_ENABLED;
     settings.javascript = cef_sys::cef_state_t::STATE_ENABLED;
 
-    log::trace!("PRE BrowserHost::create_browser");
+    log::trace!(
+        "PRE BrowserHost::create_browser default_encoding={} url={}",
+        browser_encoding,
+        url
+    );
 
     let client = WebClientRef::from(client);
     let result =
